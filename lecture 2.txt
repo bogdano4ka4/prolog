@@ -1,0 +1,54 @@
+father(maria,petro).
+father(ivan,petro).
+father(kate,igor).
+father(ivan,eduard).
+
+male(ivan).
+male(petro).
+male(igor).
+male(nick).
+female(masha).
+female(kate).
+female(nata).
+pp(X,Y):-male(X), female(Y).
+
+zile(0).
+zile(X):-zile(Y), X is Y+1.
+
+f(X,10):-X<10.
+f(X,20):-X>=10, X<20.
+f(X,30):-X>=20.
+
+f1(X,10):-X<10,!.
+f1(X,20):-X>=10, X<20,!.
+f1(X,30):-X>=20.
+
+f2(X,10):-X<10,!.
+f2(X,20):-X<20,!.
+f2(X,30).
+
+p(a).
+p(b).
+p(c).
+q(b).
+q(c).
+r(a).
+r(b).
+r(c).
+
+fact(0,1).
+fact(X,Y):-X1 is X-1, fact(X1,Y1), Y is X*Y1.
+
+all:-father(X,Y),write(Y),write(' is '),write(X),write('"s father'),nl.
+
+country(england).
+country(france).
+country(germany).
+country(denmark).
+print_countries:-write('Some delligthful places to live are:'),nl,fail.
+print_countries:-country(X), write(X),nl,fail.
+print_countries:-write('and may be others').
+
+sq:-read(X),(X=stop,!;Y is X*X, write(Y),nl,fail).
+
+pr(X,Y):-for(I,X,Y),write(I),write(' - iteration'),nl,fail.

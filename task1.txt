@@ -1,0 +1,34 @@
+male(bob).
+male(peter).
+male(dave).
+male(nill).
+male(adam).
+male(nick).
+male(dave).
+
+female(eva).
+female(sara).
+female(liza).
+female(amanda).
+female(suzy).
+female(lusi).
+female(ryta).
+
+
+%children, mother/father
+parents(liza,lusi).
+parents(bob,peter).
+parents(lusi,amanda).
+parents(ryta,amanda).
+parents(eva,lusi).
+parents(dave,nill).
+parents(adam,ryta).
+parents(nick,ryta).
+parents(peter,bob).
+parents(sara,bob).
+
+married(lusi, peter).
+married(amanda,nill).
+married(ryta, bob).
+
+brother(X) :- (parents(X,Y), parents(Q,Y), X\=Q; ((married(Z,Y);married(Y,Z)), parents(X,Y), parents(A,Z),A\=X)), male(X).

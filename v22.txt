@@ -1,0 +1,149 @@
+%Скільки існує щасливих шестизначних білетів, таких, що сума перших трьох і трьох останніх рівна 8.
+luckTem(Res):- luckTem(Res,0,0), !.
+luckTem(Res, Counter, Numb):- Numb > 999999, Res is Counter, !.  
+luckTem(Res, Counter, Numb) :- 
+							First is Numb // 100000, X2 is (Numb - First*100000), 
+							Second is X2 // 10000, X3 is (X2 -Second*10000),
+							Third is X3 // 1000, X4 is (X3 -Third*1000),
+							Fourth is X4 // 100, X5 is (X4 -Fourth*100), 
+							Fifth is X5 // 10, Sixth is (X5 -Fifth*10),
+							Sum1 is First+Second+Third,
+							Sum2 is Fourth+Fifth+Sixth,Sum1 = 8, Sum2=8, NewCount is Counter + 1, NewNumb is Numb + 1,
+							luckTem(Res, NewCount, NewNumb), !.   
+							luckTem(Res, Counter, Numb) :- NewNum is Numb+1, luckTem(Res, Counter, NewNum).
+							
+fill(-1):-!.
+fill(X):- asserta(d(X)),X1 is X-1,fill(X1).
+
+
+%Скількома способами можна розміняти одну гривню монетами номіналом 50, 10 та 25 копійок.
+exc(X) :-findall(_, exchange, Y), length(Y, X).
+exchange :- d(A), d(B), d(C), A * 10 + B * 25 + C * 50 =:= 100.
+
+
+d(0). d(1). d(2). d(3). d(4). d(5). d(6). d(7). d(8). d(9). d(10).
+
+% hryvna
+task4(X) :- findall(R, task4_help,Y), length(Y,X).
+task4_help :- d(Kop10), d(Kop25), d(Kop50),
+            100 is Kop10*10 + Kop25*25 + Kop50*50.
+
+
+%Two*Two=Three
+thre(Two,Three):-d(T), T\=0,
+			   d(W), W\=T,
+			   d(O), O\=W, O\=T,
+			   d(H), H\=O, H\=W, H\=T,
+			   d(R), R\=H,R\=O, R\=W, R\=T,
+			   d(E), E\=R, E\=H, E\=O, E\=W, E\=T,
+			   Two is T*100+W*10+O,
+			   Three is T*10000+ H*1000+R*100*E*10+E,
+			   Three is Two*Two.
+			   
+%Seven+Seven+Six=Twenty
+twnty(Seven,Six, Twenty):-d(S), S\=0,
+						d(E), E\=S,
+						d(V), V\=E, V\=S,
+						d(N), N\=V, N\=E, N\=S,
+						d(I), I\=N, I\=V, I\=E, I\=S,
+						d(X), X\=I, X\=N, X\=V, X\=E, X\=S,
+						d(T), T\=X, T\=I, T\=N, T\=V, T\=E, T\=S,
+						d(W), W\=T, W\=X, W\=I, W\=N, W\=V, W\=E, W\=S,
+						d(Y), Y\=W, Y\=T, Y\=X, Y\=I, Y\=N, Y\=V, Y\=E, Y\=S,
+						Seven is S*10000 + E*1000 + V*100 + E*10 +N,
+						Six is S*100 + I*10 +X,
+						Twenty is T*100000+ W*10000 + E*1000 + N*100 + T*10 + Y,
+						Twenty is Seven+ Seven + Six.
+						
+						
+						
+						
+						
+						
+						
+						
+%		father(X), (батько)
+%		brother(X), (брат)
+%		granny(X), (бабуся)
+%		uncle(X), (дядько, брат - мами, батька)
+%		motherinLaw(X,Y)(X – теща, Y – зять), 
+%		match(X,Y)свати(X – батько(мати) дружини, Y – батько(мати) чоловіка), 
+		
+
+female(agnes).
+female(idit).
+female(margo).
+female(lussi).
+female(sally).
+female(holly).
+female(gulia).
+female(dori).
+female(dayni).
+female(matulda).
+female(hortenzia).
+female(depla).
+
+
+	%married(чоловік, дружина).
+		married(mcqueen, sally).
+		married(gry, lussi).
+		married(mater, holly).
+		married(ramone, flo).
+		married(mayk, selia).
+
+	%parents(дитина, батьки).
+		parents(margo, gry).
+		parents(idit,gry).
+		parents(agnes,lussi).
+		parents(gry,gulia).
+		parents(dru, gulia).
+		parents(gulia, ghost).
+		parents(nafario, ghost).
+		parents(lussi, baltazar).
+		parents(rom, baltazar).
+		parents(kevin,rom ).
+		parents(idit,rom ).
+		parents(sally, ramon ).
+		parents(ramon, doluvay).
+		parents(luidgy, doluvay).
+		parents(gvido,luidgy).
+		parents(mcqueen, doc).
+		parents(sally, flo).
+		parents(carera, flo).
+		parents(holly,carera).
+		parents(dori, sally).
+		parents(mac, sally).
+		parents(donald, dak).
+		parents(dayni, dak).
+		parents(matulda, dayni).
+		parents(donald, hortenzia).
+		parents(depla,hortenzia).
+		parents(huey, matulda).
+		parents(dewey, matulda).
+		parents(louie, matulda).
+		parents(mayk, wazowski).
+		parents(selia, vantuz).
+		parents(wazowski, chak).
+		parents(duck, chak).
+		
+		
+		
+%father(X), (батько)
+father(X):- parents(Y,X), \+female(X).
+%brother(X), (брат)
+brother(X) :- (parents(X,Y), parents(Q,Y), X\=Q; ((married(Z,Y);married(Y,Z)), parents(X,Y), parents(A,Z),A\=X)), \+female(X).
+
+%granny(X), (бабуся)
+granny(X):- parents(Y,Z),parents(Z,X),female(X).
+
+
+%uncle(X), (дядько, брат - мами, батька)
+siblings(X, Y) :-((parents(X,M),parents(Y,M)),Y\=X);(parents(X,M),(married(M,D);married(D,M))), parents(Y,D).
+uncle(X):- siblings(Y,X),\+female(X).
+
+%motherinLaw(X,Y)(X – теща, Y – зять)
+motherinLaw(X,Y):- married(M,Y), parents(M,X),\+female(Y). 
+
+%match(X,Y)свати(X – батько(мати) дружини, Y – батько(мати) чоловіка), 
+% x- родитель , У - свати + інша половинка 
+svatu(X,Y):- (parents(R,X);((married(X,Z);married(Z,X)),parents(R,Z))),((married(R,D);married(D,R)),(parents(D,Y);(parents(D,M),(married(M,Y);married(Y,M))))).

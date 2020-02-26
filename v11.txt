@@ -1,0 +1,192 @@
+father(maria,petro).
+father(ivan,petro).
+father(kate,igor).
+father(ivan,eduard).
+
+
+all:-father(X,Y), write(Y),
+write(' is '),
+write(X),
+write('"s father'),nl,fail.
+
+factorial(1,1):-!. 
+factorial(X,FactX):-Y =X-1, factorial(Y,FactY), FactX = X*FactY. 
+
+
+fact(0,1).
+fact(X,Y):-X1 is X-1, fact(X1,Y1), Y is X*Y1.
+
+
+fill(-1):-!.
+fill(X):- asserta(d(X)),X1 is X-1,fill(X1).
+%Forty+Ten+Ten=Sixty
+rebus(Forty,Ten,Sixty):- d(S), S\=0,
+						  d(I), I\=S,
+						  d(X), X\=I, X\=S,
+						  d(T), T\=X, T\=I, T\=S,
+						  d(Y), Y\=T, Y\=X, Y\=I, Y\=S,
+						  d(E), E\=Y, E\=T, E\=X,E\=I,E\=S,
+						  d(N), N\=E,N\=Y,N\=T, N\=X, N\=I, N\=S,
+						  d(F), F\=N, F\=E, F\=Y, F\=T, F\=X, F\=I, F\=S,
+						  d(O), O\=F, O\=N, O\=E, O\=Y, O\=T, O\=X, O\=I, O\=S,
+						  d(R), R\=O, R\=F, R\=N, R\=E, R\=Y, R\=T, R\=X, R\=I, R\=S,
+						  Forty is F*10000 + O*1000 + R*100+ T*10 + Y,
+						  Ten is T*100+ E*10 + N,
+						  Sixty is S*10000 + I*1000 + X*100 + T*10 +Y,
+						  Sixty is Forty + Ten + Ten.
+						  
+%Bykva*6=Slovo
+slov(Bykva,Slovo):- d(B), B\=0,
+				 d(Y), Y\=B,
+				 d(K), K\=Y, K\=B,
+				 d(V), V\=K, V\=Y, V\=B,
+				 d(A), A\=V, A\=K, A\=Y, A\=B,
+				 d(S), S\=A, S\=V, S\=K, S\=Y, S\=B,
+				 d(L), L\=S,  L\=A, L\=V, L\=K, L\=Y, L\=B,
+				 d(O), O\=L, O\=S,  O\=A, O\=V, O\=K, O\=Y, O\=B,
+				 Bykva is B*10000 + Y*1000 + K*100 + V*10 +A,
+				 Slovo is S*10000 + L*1000 + O*100 + V*10 +O,
+				 Slovo is Bykva*6.
+				 
+				 
+
+%Скільки існує щасливих шестизначних білетів, таких, що сума перших трьох цифр рівна сумі трьох останніх. Вісімкова система числення.
+luckTem(Res):- luckTem(Res,0,0), !.
+luckTem(Res, Counter, Numb):- Numb > 777777, Res is Counter, !.  
+luckTem(Res, Counter, Numb) :- 
+							First is Numb // 100000, X2 is (Numb - First*100000), 
+							Second is X2 // 10000, X3 is (X2 -Second*10000),
+							Third is X3 // 1000, X4 is (X3 -Third*1000),
+							Fourth is X4 // 100, X5 is (X4 -Fourth*100), 
+							Fifth is X5 // 10, Sixth is (X5 -Fifth*10),
+							First < 8, Second < 8, Third < 8, Fourth <8, Fifth <8, Sixth<8,
+							Sum1 is First+Second+Third,
+							Sum2 is Fourth+Fifth+Sixth,Sum1 = Sum2, NewCount is Counter + 1, NewNumb is Numb + 1,
+							luckTem(Res, NewCount, NewNumb), !.   
+							luckTem(Res, Counter, Numb) :- NewNum is Numb+1, luckTem(Res, Counter, NewNum).
+
+luckyNumber(Res) :- luckyNumber(Res, 0, 0), !.
+luckyNumber(Res, Counter, Numb) :- Numb > 777777, Res is Counter, !.  
+luckyNumber(Res, Counter, Numb) :- 
+X1 is Numb // 10, A is Numb mod 10, 
+X3 is X1 // 10, B is X1 mod 10, 
+X5 is X3 // 10, C is X3 mod 10, 
+X7 is X5 // 10, D is X5 mod 10,
+X9 is X7 // 10, E is X7 mod 10, 
+X11 is X9 // 10, F is X9 mod 10, 
+A < 8, B < 8, C < 8, D <8, E <8, F<8,
+Sum1 is A+B+C, Sum2 is D+E+F, Sum1 = Sum2, NewCount is Counter + 1, NewNumb is Numb + 1,
+luckyNumber(Res, NewCount, NewNumb), !.   
+luckyNumber(Res, Counter, Numb) :- NewNum is Numb+1, luckyNumber(Res, Counter, NewNum).
+
+
+
+
+female(agnes).
+female(idit).
+female(margo).
+female(lussi).
+female(sally).
+female(holly).
+female(gulia).
+female(dori).
+female(dayni).
+female(matulda).
+female(hortenzia).
+female(depla).
+
+	%married(чоловік, дружина).
+		married(mcqueen, sally).
+		married(gry, lussi).
+		married(mater, holly).
+		married(ramone, flo).
+		married(mayk, selia).
+ 
+	%parents(дитина, батьки).
+		parents(margo, gry).
+		parents(idit,gry).
+		parents(agnes,lussi).
+		parents(gry,gulia).
+		parents(dru, gulia).
+		parents(gulia, ghost).
+		parents(nafario, ghost).
+		parents(lussi, baltazar).
+		parents(rom, baltazar).
+		parents(kevin,rom ).
+		parents(idit,rom ).
+		parents(sally, ramon ).
+		parents(ramon, doluvay).
+		parents(luidgy, doluvay).
+		parents(gvido,luidgy).
+		parents(mcqueen, doc).
+		parents(sally, flo).
+		parents(carera, flo).
+		parents(holly,carera).
+		parents(dori, sally).
+		parents(mac, sally).
+		parents(donald, dak).
+		parents(dayni, dak).
+		parents(matulda, dayni).
+		parents(donald, hortenzia).
+		parents(depla,hortenzia).
+		parents(huey, matulda).
+		parents(dewey, matulda).
+		parents(louie, matulda).
+		parents(mayk, wazowski).
+		parents(selia, vantuz).
+		parents(wazowski, chak).
+		parents(duck, chak).
+
+%female(X): = ((parents(X,_);parents(_,X)), (married(X,_) ; married(_,X))), \+male(X).
+%male(X):- ((parents(X,_);parents(_X)),(married(X,_);married(_,X))), \+female(X). 
+%male1(X):- ((parents(X,_);parents(_X)),(married(X,_);married(_,X))), \+female(X). best
+%male(X):- (parents(_,X); (parents(_,X), married(X,_))), \+female(X). 
+
+%daughter(X), (донька)
+daughter(X):- (parents(X,P),parents(Y,P),X\=Y; ((married(Y,D);married(D,Y)), parents(X,D) )),female(X).
+brother(X) :- (parents(X,Y), parents(Q,Y), X\=Q; ((married(Z,Y);married(Y,Z)), parents(X,Y), parents(A,Z),A\=X)), \+female(X).
+
+
+%granny(X), (бабуся)
+granny(X):- parents(Y,Z),parents(Z,X),female(X).
+
+%виводить всіх сестер
+sistersAll(X):-(parents(X, Y);(parentsQ,Y), X\=Q) , female(X).
+
+%brotherinLaw(X), (чоловік сестри)
+brotherinLaw(X):-sistersAll(Y),married(X,Y). 
+
+%motherinLaw(X,Y)(X – свекруха, Y – невістка)
+%motherinLaw(X,Y):- married(M,Y), parents(M,X),female(X).
+motherinLaw(X,Y):- married(M,Y), parents(M,X).
+
+%nephew(X)(племінник, син брата або сестри)
+siblings(X, Y) :-((parents(X,M),parents(Y,M)),Y\=X);(parents(X,M),(married(M,D);married(D,M))), parents(Y,D).
+nephew(X):- siblings(M, Y), parents(X,Y),\+female(X).
+
+
+
+d(0). d(1). d(2). d(3). d(4). d(5). d(6). d(7). d(8). d(9). d(10).
+
+% hryvna
+task4(X) :- findall(R, task4_help,Y), length(Y,X).
+task4_help :- d(Kop10), d(Kop25), d(Kop50),
+            100 is Kop10*10 + Kop25*25 + Kop50*50.
+			
+task21(X) :- findall(R, helper2, Y), length(Y, X).
+helper2 :- d(Cop25), d(Cop50), d(Cop10),
+          100 is Cop25*25 + Cop50*50 + Cop10*10.
+		  
+
+gryvna(Res) :- gryvna(Res, 0, 0), !.
+gryvna(Res, Counter, Numb) :- Numb > 1000000, Res is Counter, !.
+gryvna(Res, Counter, Numb) :- 
+X1 is Numb // 100, One is Numb mod 100, 
+X3 is X1 // 100, Two is X1 mod 100, Two =< 50,
+X5 is X3 // 100, Five is X3 mod 100, Five =< 20,
+Sum is 100, 
+Sum is One + Two*2 + Five*5, NewCount is Counter + 1, NewNumb is Numb + 1, gryvna(Res, NewCount, NewNumb), !.   
+gryvna(Res, Counter, Numb) :- NewNum is Numb+1, gryvna(Res, Counter, NewNum).
+			
+			
+

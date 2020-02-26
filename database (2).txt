@@ -1,0 +1,129 @@
+male(bob).
+male(peter).
+male(dave).
+male(nill).
+male(adam).
+male(nick).
+male(mark).
+%chilcren, mother/father
+parents(dave,bob).
+parents(nill,suzy).
+parents(eva,suzy).
+parents(peter,dave).
+parents(nick,dave).
+parents(ryta,amanda).
+parents(liza,amanda).
+parents(amanda,sara).
+parents(lusi,adam).
+parents(monica,mark).
+parents(rob,lusi).
+parents(bosco,lusi).
+
+married(bob,suzy).
+married(zoya,mark).
+married(nick,monica).
+married(amanda,dave).
+married(sara,adam).
+
+%print all females родинне дерего іспанських гамбургів 
+%female(X): = ((parents(X,_);parents(_,X)), (married(X,_) ; married(_,X))), \+male(X).
+%brother(X) :- (parents(X,Y), parents(Q,Y), X\=Q; ((married(Z,Y);married(Y,Z)), parents(X,Y), parents(A,Z),A\=X)), male(X).
+
+% X - чий, У - результат - виводить всіх дітей батьків
+brother2(X,Y):- parents(Y, X) ; ((married(X,Z);married(Z,X)),parents(Y,Z)).
+
+%виводить всіх братів\сестер дитини
+%X-кому, Y - результат ; ((married(M,D);married(D,M)),parents(Y,D)))
+% ((parents(X,M),parents(Y,M)),Y\=X)
+siblings(X, Y) :-((parents(X,M),parents(Y,M)),Y\=X);(parents(X,M),(married(M,D);married(D,M))), parents(Y,D).
+
+
+% x- дитина , У - батьки 2 частини подрюжжя. М Таня і Папчик для Саши
+svekru(X,Y):- (married(X,Z);married(Z,X)),(parents(Z,Y); (parents(Z,M),(married(M,Y);married(Y,M)))).
+
+% x- родитель , У - свати + інша половинка 
+svatu(X,Y):- (parents(R,X);((married(X,Z);married(Z,X)),parents(R,Z))),((married(R,D);married(D,R)),(parents(D,Y);(parents(D,M),(married(M,Y);married(Y,M))))).
+
+%виводить всіх сестер
+sistersAll(X):-(parents(X, Y);(parentsQ,Y), X\=Q) , \+male(X).
+
+% на вхід - брат або сетсра на вихід діти всіх інших рідних братів або сестер
+% Х - родитель, У - всі діти братів\сестер 
+cousinByParent(X,Y) :- siblings(X,M),parents(Y,M).
+
+% Х - дитина, У - всі брати\сестри - НЕ ПОВЕРТАЄ ВСІХ (ДІТЕЙ ІНШОГО БАТЬКА НЕ ПОВЕРТАЄ)
+cousin(X,Y) :- parents(X,M),cousinByParent(M,Y).
+
+
+
+%арифметичний ребус 8 клас
+p(X,Z,C):- C is X**Z.
+
+
+fill(-1):-!.
+fill(X):- asserta(d(X)),X1 is X-1,fill(X1).
+
+rebus(Andriy,Ganna,Drugba):- d(D), D\=0,
+                          d(R), R\=D,
+						  d(U), U\=D, U\=R,
+						  d(G), G\=D, G\=R, G\=U,
+						  d(B), B\=D, B\=R, B\=U, B\=G,
+						  d(A), A\=D, A\=R, A\=U, A\=G, A\=B,
+                          d(N), N\=D, N\=R, N\=U, N\=G, N\=B, N\=A,
+                          d(I), I\=D, I\=R, I\=U, I\=G, I\=B, I\=A, I\=N,
+                          d(Y), Y\=D, Y\=R, Y\=U, Y\=G, Y\=B, Y\=A, Y\=N, Y\=I,
+                          Andriy is A*100000 + N*10000 + D*1000*R*100 + I*10 + Y,
+                          Ganna is G*10000 + A*1000 + N*100 + N*10 + A,
+                          Drugba is D*100000 + R*10000 + U*1000 + G*100 + B*10 + A,
+                          Drugba is Andriy + Ganna.						  
+
+task31(X, Y, Z) :- (Y<10, (((Y mod 6) =\= 0, 
+							 (Y mod 10) =\= 0,
+							 (Y mod 15) =\= 0,  
+							 Z1 is Z+1, 
+							 Y1 is Y+1 , 
+							 task31(X, Y1, Z1))
+							 ;
+							 (
+							 Y1 is Y+1 , 
+							 task31(X, Y1, Z))));
+				   (Y>9,X is Z).      						  
+task3(X) :- task31(X, 1, 0),!. 
+ 
+%кросс + кросс = спорт
+sport(Cross, Cross, Sport) :- d(S), S\=0,
+                           d(P), P\=S,
+						   d(O), O\=P, O\=S,
+						   d(R), R\=O, R\=P, R\=S,
+						   d(T), T\=R,T\=O, T\=P, T\=S,
+						   d(C), C\=R, C\=T,C\=O,C\=P, C\=S,
+						   Cross is C*10000 + R*1000 + O*100 + S*10 + S,
+						   Sport is S*10000 + P*1000 + O*100 + R*10 + T,
+						   Sport is Cross + Cross.
+						 
+						  
+task6(Send, More, Money):-M=1,d(S),S\=M,
+           d(E), E \=M, E \= S,
+           d(N), N \= M, N\= S, N \= E,
+           d(D), D \= M, D \=S, D \= E, D \= N,
+           d(O), O \= M, O \=S, O \= E, O \= N, O \= D,
+           d(R), R \= M, R \=S, R \= E, R \= N, R \= D, R \= O,
+           d(Y),Y \= M, Y \=S, Y \= E, Y \= N, Y \= D, Y \= O, Y \= R,
+           Send is S*1000 + E*100 + N*10 + D,
+           More is M*1000 + O*100 + R*10 + E,
+           Money is M*10000 + O*1000 + N*100 + E*10 + Y,
+           Money is  Send + More.
+
+%EAT + THAT = APPLE
+aple(EAT,THAT,APPLE) :- d(A), A\=0,
+					d(P), P\=A,
+					d(L), L\=P, L\=A,
+					d(E), E\=L, E\=P, E\=A,
+					d(T), T\=E, T\=L, T\=P, T\=A,
+					d(H), H\=T, H\=E, H\=L, H\=P, H\=A,
+					EAT is E*100 + A*10 + T,
+					THAT is T*1000 + H*100 + A*10 + T,
+					APPLE is A*10000 + P*1000 + P*100 + L*10 +E,
+					APPLE is EAT + THAT.
+						  
+						  
